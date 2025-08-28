@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\BaseController as BaseController;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Models\User;
-use App\Repositories\UserRepository;
 use App\Services\RegisterService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Controllers\Api\BaseController as BaseController;
+
 class AuthController extends BaseController
 {
      protected $service = null;
@@ -44,7 +43,7 @@ class AuthController extends BaseController
 
         $user = Auth::user(); 
         $data['token'] =  $user->createToken('auth-token')->plainTextToken; 
-        $data['user'] =  $user;
+        $data['user'] =  new UserResource($user);
         return $this->sendSuccessResponse($data, 'User login successfully.');
     }
 

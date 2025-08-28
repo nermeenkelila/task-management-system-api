@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Repositories\UserRepository;
 class RegisterService
 {
@@ -18,7 +19,7 @@ class RegisterService
         $input['password'] = bcrypt($input['password']);
         $user = $this->repository->create($input);
         $data['token'] =  $user->createToken('auth-token')->plainTextToken;
-        $data['user'] =  $user;
+        $data['user'] =  new UserResource($user);
         return $data;
     }
 
