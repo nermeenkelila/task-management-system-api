@@ -4,18 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Services\Task\StoreTaskService;
-use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Resources\TaskResource;
+use App\Services\Task\StoreTaskService;
+use App\Services\Task\RetrieveTasksService;
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\TaskFilterRequest;
 
 class TaskController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(TaskFilterRequest $request, RetrieveTasksService $service)
     {
-        //
+       $validated = $request->validated();
+       $tasks = $service->execute($validated);
+       return $this->sendSuccessResponse(TaskResource::collection($tasks), 'Tasks retrieved successfully.');
     }
 
     /**

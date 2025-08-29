@@ -20,7 +20,7 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'assignee' => new UserResource($this->assignee),
-            'due_date' => $this->due_date,
+            'due_date' => $this->due_date?->format('Y-m-d'),
         ];
     }
 }
