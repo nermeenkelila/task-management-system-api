@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 
 class AuthController extends BaseController
 {
-     protected $service = null;
+    protected $service = null;
 
     public function __construct(
         RegisterService $service
@@ -24,8 +24,8 @@ class AuthController extends BaseController
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $input = $request->validated();
-        $data = $this->service->execute($input);
+        $validated = $request->validated();
+        $data = $this->service->execute($validated);
         return $this->sendSuccessResponse($data, 'User register successfully.');
     }
     /**

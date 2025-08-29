@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\AssignTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,5 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::apiResource('tasks', TaskController::class);
+
+    Route::post('tasks/{task}/assign', AssignTaskController::class)
+            ->name('tasks.assign')->middleware('can:assign,task');
 
 });
