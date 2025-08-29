@@ -17,9 +17,5 @@ class RoleSeeder extends Seeder
         foreach(UserRoleEnum::values() as $value){
             Role::create(['name' => $value]);
         }
-        // DB::table('roles')->insert([
-        //     ['name' => UserRoleEnum::MANAGER, 'created_at' => now(), 'updated_at' => now()],
-        //     ['name' => UserRoleEnum::USER, 'created_at' => now(), 'updated_at' => now()],
-        // ]);
     }
 }
