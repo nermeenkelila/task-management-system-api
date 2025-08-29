@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
@@ -59,5 +60,26 @@ class Task extends Model
         if ($endDate) {
             $query->where('due_date', '<=', $endDate);
         }
+    }
+
+     public function dependencies(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Task::class,
+            'task_dependencies',
+            'task_id',
+            'dependency_id'
+        )->withTimestamps();
+    }
+
+    
+    public function dependentTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Task::class,
+            'task_dependencies',
+            'dependency_id',
+            'task_id'
+        )->withTimestamps();
     }
 }

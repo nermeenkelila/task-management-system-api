@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TaskResource;
 use App\Services\Task\StoreTaskService;
+use App\Http\Resources\TaskDetailsResource;
 use App\Services\Task\RetrieveTasksService;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\TaskFilterRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends BaseController
 {
@@ -29,15 +32,20 @@ class TaskController extends BaseController
     {
         $validated = $request->validated();
         $task = $service->execute($validated);
-        return $this->sendSuccessResponse( new TaskResource($task), 'Task created successfully.');
+        return $this->sendSuccessResponse( 
+            new TaskResource($task), 
+            'Task created successfully.', 
+            Response::HTTP_CREATED
+        );
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        $this->authorize('view', $task);
+        return $this->sendSuccessResponse( new TaskDetailsResource($task->load('dependencies')), 'Task retieved successfully.');
     }
 
     /**

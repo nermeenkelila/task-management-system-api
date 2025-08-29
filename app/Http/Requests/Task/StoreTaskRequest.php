@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Task;
 
 use App\Models\Task;
+use App\Rules\CircularDependencyRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends FormRequest
@@ -26,7 +27,9 @@ class StoreTaskRequest extends FormRequest
             "title" => "required|string|min:2|max:100|unique:tasks",
             "description" => "nullable|string|min:5",
             "assignee_id" => "sometimes|required|exists:users,id",
-            "due_date" => "required|date_format:Y-m-d|after_or_equal:today"
+            "due_date" => "required|date_format:Y-m-d|after_or_equal:today",
+            'dependencies' => 'nullable|array',
+            'dependencies.*' => ['exists:tasks,id', new CircularDependencyRule]
         ];
     }
 }

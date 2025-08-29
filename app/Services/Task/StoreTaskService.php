@@ -21,7 +21,12 @@ class StoreTaskService
      {
         $validated['created_by'] = auth()->id();
         $validated['status'] = StatusEnum::PENDING;
-        return $this->repository->create($validated);
+        $task = $this->repository->create($validated);
+        if (isset($validated['dependencies'])) {
+            $task->dependencies()->sync($validated['dependencies']);
+        }
+
+        return $task;
     }
 
 }

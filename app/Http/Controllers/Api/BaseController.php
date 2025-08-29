@@ -11,14 +11,14 @@ use Illuminate\Http\JsonResponse;
 class BaseController extends Controller
 {
 
-    public function sendSuccessResponse($result, $message): JsonResponse 
+    public function sendSuccessResponse($result, $message, $code = Response::HTTP_OK): JsonResponse 
     {
      $response = [
             'success' => true,
             'data'    => $result,
             'message' => $message,
         ];
-        return response()->json($response, Response::HTTP_OK);
+        return response()->json($response, $code);
     }
     
     public function sendError($error, $errorMessages = [], $code = Response::HTTP_NOT_FOUND): JsonResponse

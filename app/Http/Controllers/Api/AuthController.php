@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Services\RegisterService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
@@ -26,7 +27,7 @@ class AuthController extends BaseController
     {
         $validated = $request->validated();
         $data = $this->service->execute($validated);
-        return $this->sendSuccessResponse($data, 'User register successfully.');
+        return $this->sendSuccessResponse($data, 'User register successfully.', Response::HTTP_CREATED);
     }
     /**
      * Login api
