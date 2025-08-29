@@ -56,12 +56,12 @@ class User extends Authenticatable
 
     public function isManager(): bool
     {
-        return $this->role->name === UserRoleEnum::MANAGER;
+        return $this->role->name === UserRoleEnum::MANAGER->value;
     }
 
     public function isUser(): bool
     {
-        return $this->role->name === UserRoleEnum::USER;
+        return $this->role->name === UserRoleEnum::USER->value;
     }
 
     public function tasks(): HasMany

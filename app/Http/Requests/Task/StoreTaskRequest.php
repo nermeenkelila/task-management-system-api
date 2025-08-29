@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
+use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class StoreTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', Task::class);
     }
 
     /**
@@ -22,11 +23,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:2|max:100',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'role_id' => 'required|exists:roles,id'
+            "title" => "required|string|min:2|max:100|unique:tasks",
+            "description" => "nullable|string|min:5",
+            "assignee_id" => "sometimes|required|exists:users,id",
+            "due_date" => "required|date_format:Y-m-d|after_or_equal:today"
         ];
     }
 }

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('description')->nullable();
             $table->string('status', 50);
+            $table->unsignedBigInteger('assignee_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('assignee_id')->references('id')->on('users')->nullOnDelete();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->date('due_date');

@@ -19,6 +19,8 @@ class Task extends Model
         'due_date'
     ];
 
+    protected $with = ['assignee'];
+
      public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assignee_id');
