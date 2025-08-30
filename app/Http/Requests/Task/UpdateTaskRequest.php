@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Task;
 
-use App\Models\Task;
 use App\Enums\StatusEnum;
 use Illuminate\Validation\Rule;
 use App\Rules\CanStatusCompletedRule;
@@ -35,6 +34,13 @@ class UpdateTaskRequest extends FormRequest
             "status" => ['nullable', 'string', 'in:' . implode(",", StatusEnum::values()), new CanStatusCompletedRule],
             "dependencies" => 'nullable|array',
             "dependencies.*" => ['exists:tasks,id', new CircularDependencyRule]
+        ];
+    }
+
+     public function messages()
+    {
+        return [
+            'status.in' => "Status must be one of:" . implode(",", StatusEnum::values()),
         ];
     }
 }

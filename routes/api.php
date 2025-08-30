@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\AssignTaskController;
+use App\Http\Controllers\Api\UpdateTaskStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('tasks/{task}/assign', AssignTaskController::class)
             ->name('tasks.assign')->middleware('can:assign,task');
 
+    Route::patch('tasks/{task}/update-status', UpdateTaskStatusController::class)
+            ->name('tasks.update.status')->middleware('can:updateStatus,task');
 });

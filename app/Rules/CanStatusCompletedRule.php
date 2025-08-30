@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use App\Enums\StatusEnum;
 use Closure;
-use App\Models\Task;
 use App\Repositories\TaskRepository;
 use Illuminate\Contracts\Validation\ValidationRule;
 
