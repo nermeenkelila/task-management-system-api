@@ -4,7 +4,7 @@ namespace App\Services\Task;
 
 
 use App\Repositories\TaskRepository;
-
+use Illuminate\Database\Eloquent\Collection;
 
 class RetrieveTasksService
 {
@@ -16,10 +16,10 @@ class RetrieveTasksService
     ) {
         $this->repository = $repository;
     }
-    public function execute(array $filters)
+    public function execute(array $filters): Collection
      {
        if(empty($filters)){
-            return $this->repository->orderBy("id", "desc")->paginate(10);
+            return $this->repository->orderBy("id", "desc")->get();
        }
        return $this->repository->getFilteredTasks($filters);
     }

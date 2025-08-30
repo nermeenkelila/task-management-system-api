@@ -26,7 +26,7 @@ class TaskRepository extends BaseRepository
         return $query->get();
     }
 
-    public function getCountOfNonCompletedDependences(int $id)
+    public function getCountOfNonCompletedDependences(int $id): int
     {
         return $this->model->where('id', $id)
             ->whereHas('dependencies', function (Builder $query) {

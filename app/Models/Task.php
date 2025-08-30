@@ -37,21 +37,21 @@ class Task extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function scopeFilterByStatus(Builder $query, $status)
+    public function scopeFilterByStatus(Builder $query, $status): void
     {
         if ($status) {
             $query->where('status', $status);
         }
     }
 
-    public function scopeFilterByAssignee(Builder $query, int $userId)
+    public function scopeFilterByAssignee(Builder $query, int $userId): void
     {
         if ($userId) {
             $query->where('assignee_id', $userId);
         }
     }
 
-    public function scopeFilterByDueDateRange(Builder $query, $startDate, $endDate)
+    public function scopeFilterByDueDateRange(Builder $query, $startDate, $endDate): void
     {
         if ($startDate) {
             $query->where('due_date', '>=', $startDate);

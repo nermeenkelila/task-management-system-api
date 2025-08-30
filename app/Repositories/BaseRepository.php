@@ -26,7 +26,7 @@ class BaseRepository implements Crud
      * 
      * @param Model $model
      */
-    public function setModel(Model $model)
+    public function setModel(Model $model): void
     {
         $this->model = $model;
     }

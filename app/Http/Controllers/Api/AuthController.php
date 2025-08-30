@@ -48,7 +48,7 @@ class AuthController extends BaseController
         return $this->sendSuccessResponse($data, 'User login successfully.');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out']);

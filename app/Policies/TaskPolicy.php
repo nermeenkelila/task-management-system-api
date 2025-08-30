@@ -50,7 +50,7 @@ class TaskPolicy
         return $user->isManager() || $task->assignee_id == $user->id;
     }
 
-     public function delete(User $user, Task $task)
+     public function delete(User $user, Task $task): bool
     {
         return $user->isManager() && $task->created_by === $user->id;
     }

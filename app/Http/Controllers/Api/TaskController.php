@@ -20,7 +20,7 @@ class TaskController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index(TaskFilterRequest $request, RetrieveTasksService $service)
+    public function index(TaskFilterRequest $request, RetrieveTasksService $service): JsonResponse
     {
        $validated = $request->validated();
        $tasks = $service->execute($validated);
@@ -53,7 +53,7 @@ class TaskController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task, UpdateTaskService $service) 
+    public function update(UpdateTaskRequest $request, Task $task, UpdateTaskService $service): JsonResponse 
     {
         $validated = $request->validated();
         $task = $service->execute($validated, $task);
@@ -67,7 +67,7 @@ class TaskController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         $this->authorize('delete', $task);
         $task->delete();

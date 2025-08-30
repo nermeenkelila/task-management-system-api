@@ -31,7 +31,7 @@ class TaskFilterRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'status.in' => "Status must be one of:" . implode(",", StatusEnum::values()),
