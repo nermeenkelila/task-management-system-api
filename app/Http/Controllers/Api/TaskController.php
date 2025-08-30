@@ -67,8 +67,15 @@ class TaskController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        $this->authorize('delete', $task);
+        $task->delete();
+
+        return $this->sendSuccessResponse( 
+            [], 
+            "Task deleted successfully", 
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
