@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class CircularDependencyRule implements ValidationRule
 {
-    public function __construct(protected ?Task $task = null) {}
     /**
      * Run the validation rule.
      *
@@ -16,15 +15,19 @@ class CircularDependencyRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!$this->task) {
+        $task = request()->route('task');
+        if (!$task) {
             return;
         }
 
         $dependencies = is_array($value) ? $value : [$value];
         foreach ($dependencies as $dependencyId) {
+            if($task->id == $dependencyId){
+                $fail("This dependency with id {$dependencyId} has the same task id, Task cannot depend on its self.");
+            }
             $dependency = Task::find($dependencyId);
         
-            if ($dependency->dependencies->contains('id', $this->task->id)) {
+            if ($dependency->dependencies->contains('id', $task->id)) {
                 $fail("This dependency with id {$dependencyId} would create a circular dependency.");
             }
         }

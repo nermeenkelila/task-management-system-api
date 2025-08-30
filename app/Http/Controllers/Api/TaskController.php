@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TaskResource;
 use App\Services\Task\StoreTaskService;
+use App\Services\Task\UpdateTaskService;
 use App\Http\Resources\TaskDetailsResource;
 use App\Services\Task\RetrieveTasksService;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\TaskFilterRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends BaseController
@@ -33,7 +35,7 @@ class TaskController extends BaseController
         $validated = $request->validated();
         $task = $service->execute($validated);
         return $this->sendSuccessResponse( 
-            new TaskResource($task), 
+            new TaskDetailsResource($task), 
             'Task created successfully.', 
             Response::HTTP_CREATED
         );
@@ -42,7 +44,7 @@ class TaskController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): JsonResponse
     {
         $this->authorize('view', $task);
         return $this->sendSuccessResponse( new TaskDetailsResource($task->load('dependencies')), 'Task retieved successfully.');
@@ -51,9 +53,15 @@ class TaskController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Task $task, UpdateTaskService $service) 
     {
-        //
+        $validated = $request->validated();
+        $task = $service->execute($validated, $task);
+        return $this->sendSuccessResponse( 
+            new TaskDetailsResource($task), 
+            'Task Updated successfully.', 
+            Response::HTTP_CREATED
+        );
     }
 
     /**

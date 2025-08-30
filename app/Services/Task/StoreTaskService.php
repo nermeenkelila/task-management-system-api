@@ -24,6 +24,7 @@ class StoreTaskService
         $task = $this->repository->create($validated);
         if (isset($validated['dependencies'])) {
             $task->dependencies()->sync($validated['dependencies']);
+            $task->load('dependencies');
         }
 
         return $task;
