@@ -19,21 +19,25 @@ class UserSeeder extends Seeder
         $managerRole = Role::where('name', UserRoleEnum::MANAGER->value)->first();
         $userRole = Role::where('name', UserRoleEnum::USER->value)->first();
 
-        User::create([
-            'name' => 'Manager',
-            'email' => 'manager@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => $managerRole->id,
-        ]);
+        User::firstOrCreate(
+['email' => 'manager@example.com'],
+    [
+                'name' => 'Manager',
+                'password' => Hash::make('password'),
+                'role_id' => $managerRole->id,
+            ]
+        );
 
         $i = 1;
         while($i <= 5){
-            User::create([
-                'name' => "User {$i}",
-                'email' => "user{$i}@example.com",
-                'password' => Hash::make('password'),
-                'role_id' => $userRole->id,
-            ]);
+            User::firstOrCreate(
+    ['email' => "user{$i}@example.com"],
+        [
+                    'name' => "User {$i}",
+                    'password' => Hash::make('password'),
+                    'role_id' => $userRole->id,
+                ]
+            );
             $i++;
         }
     }

@@ -9,8 +9,6 @@ services:
     user: "1000"
     image: task-management-app
     container_name: task-management-app
-    restart: unless-stopped
-    tty: true
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -67,8 +65,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: task-management-phpmyadmin
-    restart: unless-stopped
-    tty: true
     ports:
       - "8000:80"
     environment:
@@ -84,8 +80,3 @@ services:
 networks:
   laravel-network:
     driver: bridge
-
-# # Volumes
-# volumes:
-#   dbdata:
-#     driver: local
